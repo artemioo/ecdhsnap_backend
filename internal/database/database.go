@@ -1,5 +1,7 @@
 package database
 
+import "github.com/jmoiron/sqlx"
+
 type Authorization interface {
 	// CreateUser()
 	// GetUser()
@@ -27,6 +29,6 @@ type Database struct {
 }
 
 // конструктор
-func NewDatabase() *Database {
+func NewDatabase(db *sqlx.DB) *Database {
 	return &Database{}
 }
