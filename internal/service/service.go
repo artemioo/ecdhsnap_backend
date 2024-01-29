@@ -1,11 +1,13 @@
 package service
 
-import "github.com/artemioo/ecdhsnap_backend/internal/database"
+import (
+	ecdhsnap "github.com/artemioo/ecdhsnap_backend"
+	"github.com/artemioo/ecdhsnap_backend/internal/database"
+)
 
-type Authorization interface {
-	// CreateUser()
+type User interface {
+	CreateUser(user ecdhsnap.User) (int, error)
 	// GetUser()
-	// GeneratePubKey(entropy)
 	// GetPubKey()
 
 }
@@ -13,22 +15,20 @@ type Authorization interface {
 type Pair interface {
 	// CreatePair()
 	// GetPair()
-	// SaveSharedSecret()
 }
 
 type Message interface {
 	// CreateMessage()
 	// GetMessages()
-	//
 }
 
 type Service struct {
-	Authorization
+	User
 	Pair
 	Message
 }
 
 // конструктор
 func NewService(db *database.Database) *Service {
-	return &Service{}
+	return &Service{User: NewUserService(db.User)}
 }

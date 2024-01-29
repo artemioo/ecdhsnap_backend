@@ -20,7 +20,7 @@ func (h *Handler) InitRoutes() http.Handler {
 	router := chi.NewRouter()
 
 	router.Get("/", h.WelcomePage)
-
+	router.Post("/user/create", h.CreateUser)
 	/* 	router.Route("/user", func(r chi.Router) {
 		r.Get("/name", getUserName)
 		r.Get("/adress", getUserAdress)

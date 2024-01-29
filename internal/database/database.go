@@ -1,11 +1,13 @@
 package database
 
-import "github.com/jmoiron/sqlx"
+import (
+	ecdhsnap "github.com/artemioo/ecdhsnap_backend"
+	"github.com/jmoiron/sqlx"
+)
 
-type Authorization interface {
-	// CreateUser()
+type User interface {
+	CreateUser(user ecdhsnap.User) (int, error)
 	// GetUser()
-	// GeneratePubKey(entropy)
 	// GetPubKey()
 
 }
@@ -13,22 +15,20 @@ type Authorization interface {
 type Pair interface {
 	// CreatePair()
 	// GetPair()
-	// SaveSharedSecret()
 }
 
 type Message interface {
 	// CreateMessage()
 	// GetMessages()
-	//
 }
 
 type Database struct {
-	Authorization
+	User
 	Pair
 	Message
 }
 
 // конструктор
 func NewDatabase(db *sqlx.DB) *Database {
-	return &Database{}
+	return &Database{User: NewUserPostgres(db)}
 }
