@@ -23,7 +23,6 @@ func (h *Handler) CreateUser(w http.ResponseWriter, r *http.Request) {
 
 	id, err := h.services.CreateUser(new_user)
 	if err != nil {
-		//вернуть ошибку + поменять статускод
 		http.Error(w, "Internal Server Error: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
