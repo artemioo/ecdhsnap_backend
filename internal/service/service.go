@@ -12,7 +12,7 @@ type User interface {
 }
 
 type Pair interface {
-	// CreatePair()  (int, error)
+	CreatePair(pair ecdhsnap.Pair) (int, error)
 	// GetRelatedPairs()
 }
 
@@ -29,5 +29,8 @@ type Service struct {
 
 // конструктор
 func NewService(db *database.Database) *Service {
-	return &Service{User: NewUserService(db.User)}
+	return &Service{
+		User: NewUserService(db.User),
+		Pair: NewPairService(db.Pair),
+	}
 }

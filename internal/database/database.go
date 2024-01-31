@@ -12,7 +12,7 @@ type User interface {
 }
 
 type Pair interface {
-	// CreatePair()  (int, error)
+	CreatePair(pair ecdhsnap.Pair) (int, error)
 	// GetRelatedPairs()
 }
 
@@ -29,5 +29,8 @@ type Database struct {
 
 // конструктор
 func NewDatabase(db *sqlx.DB) *Database {
-	return &Database{User: NewUserPostgres(db)}
+	return &Database{
+		User: NewUserPostgres(db),
+		Pair: NewPairPostgres(db),
+	}
 }
