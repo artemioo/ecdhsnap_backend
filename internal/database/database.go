@@ -7,14 +7,13 @@ import (
 
 type User interface {
 	CreateUser(user ecdhsnap.User) (int, error)
-	// GetUser()
-	// GetPubKey()
-
+	GetUserPubKey(id int) (string, error)
+	//GetAllUsers()
 }
 
 type Pair interface {
-	// CreatePair()
-	// GetPair()
+	// CreatePair()  (int, error)
+	// GetRelatedPairs()
 }
 
 type Message interface {

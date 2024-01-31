@@ -20,11 +20,14 @@ func (h *Handler) InitRoutes() http.Handler {
 	router := chi.NewRouter()
 
 	router.Get("/", h.WelcomePage)
-	router.Post("/user/create", h.CreateUser)
-	/* 	router.Route("/user", func(r chi.Router) {
-		r.Get("/name", getUserName)
-		r.Get("/adress", getUserAdress)
-		r.Get("/pubkey", getUserPubKey)
-	}) */
+	router.Route("/user", func(r chi.Router) {
+		r.Post("/create", h.CreateUser)
+		r.Get("/", h.GetUserPubKey)
+		/* 	router.Route("/user", func(r chi.Router) {
+			r.Get("/name", getUserName)
+			r.Get("/adress", getUserAdress)
+			r.Get("/pubkey", getUserPubKey)
+		}) */
+	})
 	return router
 }

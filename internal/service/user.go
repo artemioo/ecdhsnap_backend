@@ -16,3 +16,7 @@ func NewUserService(db database.User) *UserService {
 func (s *UserService) CreateUser(user ecdhsnap.User) (int, error) {
 	return s.db.CreateUser(user)
 }
+
+func (s *UserService) GetUserPubKey(id int) (string, error) {
+	return s.db.GetUserPubKey(id)
+}
