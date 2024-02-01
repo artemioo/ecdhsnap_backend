@@ -1,8 +1,8 @@
 CREATE TABLE users 
 (
     id serial not null unique,
-    username varchar(255) not null,
-    address varchar(255) not null,
+    username varchar(255) not null unique,
+    address varchar(255) not null unique,
     pubkey varchar(255) not null
 );
 
