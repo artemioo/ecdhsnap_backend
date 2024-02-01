@@ -31,7 +31,7 @@ func (h *Handler) CreatePair(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) GetRelatedPairs(w http.ResponseWriter, r *http.Request) {
-	UserID := chi.URLParam(r, "userID")
+	UserID := chi.URLParam(r, "userId")
 	UserIDInt, err := strconv.Atoi(UserID) // convert to int
 	id, err := h.services.GetRelatedPairs(UserIDInt)
 	if err != nil {

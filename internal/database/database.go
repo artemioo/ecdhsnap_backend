@@ -17,7 +17,7 @@ type Pair interface {
 }
 
 type Message interface {
-	// CreateMessage()
+	CreateMessage(message ecdhsnap.Message) (int, error)
 	// GetMessages()
 }
 
@@ -30,7 +30,8 @@ type Database struct {
 // конструктор
 func NewDatabase(db *sqlx.DB) *Database {
 	return &Database{
-		User: NewUserPostgres(db),
-		Pair: NewPairPostgres(db),
+		User:    NewUserPostgres(db),
+		Pair:    NewPairPostgres(db),
+		Message: NewMessagePostgres(db),
 	}
 }

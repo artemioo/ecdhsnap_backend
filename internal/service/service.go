@@ -17,8 +17,8 @@ type Pair interface {
 }
 
 type Message interface {
-	// CreateMessage()
-	// GetMessages()
+	CreateMessage(message ecdhsnap.Message) (int, error)
+	// GetMessages(pair_id int) ([]byte, error)
 }
 
 type Service struct {
@@ -30,7 +30,8 @@ type Service struct {
 // конструктор
 func NewService(db *database.Database) *Service {
 	return &Service{
-		User: NewUserService(db.User),
-		Pair: NewPairService(db.Pair),
+		User:    NewUserService(db.User),
+		Pair:    NewPairService(db.Pair),
+		Message: NewMessageService(db.Message),
 	}
 }
