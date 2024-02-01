@@ -3,6 +3,7 @@ package database
 import (
 	"fmt"
 
+	"github.com/Masterminds/squirrel"
 	"github.com/jmoiron/sqlx"
 	// _ "github.com/jackc/pgx/v5/stdlib"
 )
@@ -30,3 +31,8 @@ func NewPostgresDB(cfg Config) (*sqlx.DB, error) {
 
 	return db, nil
 }
+
+var (
+	// psql is query builder configured for PostgreSQL
+	psql = squirrel.StatementBuilder.PlaceholderFormat(squirrel.Dollar)
+)
