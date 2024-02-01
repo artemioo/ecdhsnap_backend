@@ -19,8 +19,6 @@ func NewHandler(services *service.Service) *Handler {
 func (h *Handler) InitRoutes() http.Handler {
 	router := chi.NewRouter()
 
-	router.Get("/", h.WelcomePage)
-
 	router.Route("/user", func(r chi.Router) {
 		r.Post("/create", h.CreateUser)
 		r.Get("/", h.GetUserPubKey)
@@ -28,11 +26,10 @@ func (h *Handler) InitRoutes() http.Handler {
 	router.Route("/pair", func(r chi.Router) {
 		r.Post("/create", h.CreatePair)
 		r.Get("/related/{userId}", h.GetRelatedPairs)
-		//	r.Get("/", h.GetUserPubKey)
 	})
 	router.Route("/message", func(r chi.Router) {
 		r.Post("/create", h.CreateMessage)
-		//r.Get("/related/{pairId}", h.GetRelatedMessage)
+		r.Get("/related/{pairId}", h.GetRelatedMessages)
 	})
 	return router
 }

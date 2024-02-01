@@ -7,10 +7,6 @@ import (
 	ecdhsnap "github.com/artemioo/ecdhsnap_backend"
 )
 
-func (h *Handler) WelcomePage(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("test"))
-}
-
 func (h *Handler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	var new_user ecdhsnap.User
 	err := json.NewDecoder(r.Body).Decode(&new_user)

@@ -18,7 +18,7 @@ type Pair interface {
 
 type Message interface {
 	CreateMessage(message ecdhsnap.Message) (int, error)
-	// GetMessages(pair_id int) ([]byte, error)
+	GetRelatedMessages(pairID int) ([]byte, error)
 }
 
 type Service struct {
