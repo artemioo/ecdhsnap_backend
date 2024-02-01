@@ -14,14 +14,8 @@ func NewUserPostgres(db *sqlx.DB) *UserPostgres {
 	return &UserPostgres{db: db}
 }
 
-var (
-	// psql is query builder configured for PostgreSQL
-	psql = squirrel.StatementBuilder.PlaceholderFormat(squirrel.Dollar)
-)
-
 func (r *UserPostgres) CreateUser(user ecdhsnap.User) (int, error) {
 	var id int
-	//query := fmt.Sprintf("INSERT INTO users (username, address, pubkey) VALUES ($1, $2, $3) RETURNING id")
 	q := psql.Insert("users").Columns("username", "address", "pubkey").
 		Values(user.Name, user.Address, user.PubKey).
 		Suffix("RETURNING id").
