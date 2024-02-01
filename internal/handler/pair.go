@@ -3,8 +3,10 @@ package handler
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 
 	ecdhsnap "github.com/artemioo/ecdhsnap_backend"
+	"github.com/go-chi/chi/v5"
 )
 
 func (h *Handler) CreatePair(w http.ResponseWriter, r *http.Request) {
@@ -26,4 +28,15 @@ func (h *Handler) CreatePair(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Write(result)
+}
+
+func (h *Handler) GetRelatedPairs(w http.ResponseWriter, r *http.Request) {
+	UserID := chi.URLParam(r, "userID")
+	UserIDInt, err := strconv.Atoi(UserID) // convert to int
+	id, err := h.services.GetRelatedPairs(UserIDInt)
+	if err != nil {
+		http.Error(w, "Internal Server Error: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Write([]byte(id))
 }

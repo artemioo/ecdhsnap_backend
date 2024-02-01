@@ -13,7 +13,7 @@ type User interface {
 
 type Pair interface {
 	CreatePair(pair ecdhsnap.Pair) (int, error)
-	// GetRelatedPairs()
+	GetRelatedPairs(userID int) ([]byte, error)
 }
 
 type Message interface {

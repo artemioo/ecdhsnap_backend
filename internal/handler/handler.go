@@ -27,6 +27,7 @@ func (h *Handler) InitRoutes() http.Handler {
 	})
 	router.Route("/pair", func(r chi.Router) {
 		r.Post("/create", h.CreatePair)
+		r.Get("/related/{userID}", h.GetRelatedPairs)
 		//	r.Get("/", h.GetUserPubKey)
 
 	})
