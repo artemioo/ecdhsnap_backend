@@ -5,6 +5,7 @@ import (
 
 	"github.com/artemioo/ecdhsnap_backend/internal/service"
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/cors"
 )
 
 type Handler struct {
@@ -18,6 +19,16 @@ func NewHandler(services *service.Service) *Handler {
 
 func (h *Handler) InitRoutes() http.Handler {
 	router := chi.NewRouter()
+
+	// Basic CORS
+	router.Use(cors.Handler(cors.Options{
+		AllowedOrigins:   []string{"https://*", "http://*"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
+		ExposedHeaders:   []string{"Link"},
+		AllowCredentials: false,
+		MaxAge:           300,
+	}))
 
 	router.Route("/user", func(r chi.Router) {
 		r.Post("/create", h.CreateUser)

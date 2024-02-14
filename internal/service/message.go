@@ -23,7 +23,7 @@ func (s *MessageService) GetRelatedMessages(PairID int) ([]byte, error) {
 
 	messages, err := s.db.GetRelatedMessages(PairID)
 
-	MessagesMap := make(map[int]ecdhsnap.Message) // Создание мапы с юзерами
+	MessagesMap := make(map[int]ecdhsnap.Message) // Создание мапы с сообщениями
 	for _, message := range messages {
 		MessagesMap[message.Id] = message
 	}
