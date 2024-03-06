@@ -24,19 +24,29 @@ func (h *Handler) InitRoutes() http.Handler {
 	router.Use(cors.Handler(cors.Options{
 		AllowedOrigins:   []string{"https://*", "http://*"},
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
+		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token", "Set-Cookie"},
 		ExposedHeaders:   []string{"Link"},
-		AllowCredentials: false,
+		AllowCredentials: true,
 		MaxAge:           300,
 	}))
 
+	router.Post("/login", h.login)
+	router.Post("/logout", h.logout)
+
+	router.Get("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("hi"))
+	})
+
 	router.Route("/user", func(r chi.Router) {
 		r.Post("/create", h.CreateUser)
-		r.Get("/", h.GetUserPubKey)
+		r.Get("/{username}", h.GetUserPubKey)
 	})
+
+	router.Get("/users", h.GetAllUsers)
+
 	router.Route("/pair", func(r chi.Router) {
 		r.Post("/create", h.CreatePair)
-		r.Get("/related/{userId}", h.GetRelatedPairs)
+		r.Get("/related", h.GetRelatedPairs)
 	})
 	router.Route("/message", func(r chi.Router) {
 		r.Post("/create", h.CreateMessage)
