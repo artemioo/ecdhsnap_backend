@@ -7,8 +7,8 @@ import (
 
 type User interface {
 	CreateUser(user ecdhsnap.User) (int, error)
-	GetUserPubKey(id int) (string, error)
-	//GetAllUsers()
+	GetUserPubKey(username string) (int, string, error)
+	GetAllUsers() ([]ecdhsnap.User, error)
 }
 
 type Pair interface {

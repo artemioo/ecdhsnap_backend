@@ -16,13 +16,21 @@ func NewUserPostgres(db *sqlx.DB) *UserPostgres {
 
 func (r *UserPostgres) CreateUser(user ecdhsnap.User) (int, error) {
 	var id int
+
+	// check if user already exists
+	var existingUserID int
+	err := r.db.QueryRow("SELECT id FROM users WHERE username = $1", user.Username).Scan(&existingUserID)
+	if err == nil {
+		return existingUserID, nil
+	}
+
 	q := psql.Insert("users").Columns("username", "address", "pubkey").
-		Values(user.Name, user.Address, user.PubKey).
+		Values(user.Username, user.Address, user.PubKey).
 		Suffix("RETURNING id").
 		PlaceholderFormat(squirrel.Dollar).
 		RunWith(r.db)
 
-	err := q.QueryRow().Scan(&id)
+	err = q.QueryRow().Scan(&id)
 	if err != nil {
 		return 0, err
 	}
@@ -30,14 +38,22 @@ func (r *UserPostgres) CreateUser(user ecdhsnap.User) (int, error) {
 	return id, nil
 }
 
-func (r *UserPostgres) GetUserPubKey(id int) (string, error) {
+func (r *UserPostgres) GetUserPubKey(username string) (int, string, error) {
+	var id int
 	var pubkey string
-	q, args, err := psql.Select("pubkey").From("users").
-		Where(squirrel.Eq{"id": id}).Limit(1).ToSql()
+	q, args, err := psql.Select("id, pubkey").From("users").
+		Where(squirrel.Eq{"username": username}).Limit(1).ToSql()
 
 	row := r.db.QueryRow(q, args...)
-	if err = row.Scan(&pubkey); err != nil {
-		return "", err
+	if err = row.Scan(&id, &pubkey); err != nil {
+		return 0, "", err
 	}
-	return pubkey, err
+	return id, pubkey, err
+}
+
+func (r *UserPostgres) GetAllUsers() ([]ecdhsnap.User, error) {
+	var users []ecdhsnap.User
+	query := "SELECT * FROM users"
+	err := r.db.Select(&users, query)
+	return users, err
 }
