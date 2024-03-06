@@ -18,7 +18,7 @@ func (h *Handler) CreateMessage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	new_message.Sent_at = time.Now() // or frontend?
+	new_message.Sent_at = time.Now()
 
 	id, err := h.services.CreateMessage(new_message)
 	if err != nil {
@@ -37,6 +37,14 @@ func (h *Handler) CreateMessage(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) GetRelatedMessages(w http.ResponseWriter, r *http.Request) {
 	PairID := chi.URLParam(r, "pairId")
 	PairIdInt, err := strconv.Atoi(PairID) // convert to int
+
+	/* 	var Pair ecdhsnap.Pair
+	   	err := json.NewDecoder(r.Body).Decode(&P)
+	   	if err != nil {
+	   		http.Error(w, "Invalid JSON data", http.StatusBadRequest)
+	   		return
+	   	} */
+
 	id, err := h.services.GetRelatedMessages(PairIdInt)
 	if err != nil {
 		http.Error(w, "Internal Server Error: "+err.Error(), http.StatusInternalServerError)

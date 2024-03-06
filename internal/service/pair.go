@@ -22,9 +22,10 @@ func (s *PairService) CreatePair(pair ecdhsnap.Pair) (int, error) {
 func (s *PairService) GetRelatedPairs(userID int) ([]byte, error) {
 	users, err := s.db.GetRelatedPairs(userID)
 
-	userMap := make(map[int]ecdhsnap.User) // Создание мапы с юзерами
+	userMap := make(map[string]ecdhsnap.User) // Создание мапы с юзерами
 	for _, user := range users {
-		userMap[user.Id] = user
+		//userMap[user.Id] = user
+		userMap[user.Username] = user
 	}
 
 	jsonArray, err := json.Marshal(userMap) // Преобразование мапы в JSON

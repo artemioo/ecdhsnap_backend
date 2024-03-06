@@ -33,7 +33,7 @@ func (r *MessagePostgres) CreateMessage(message ecdhsnap.Message) (int, error) {
 func (r *MessagePostgres) GetRelatedMessages(pairID int) ([]ecdhsnap.Message, error) {
 	var messages []ecdhsnap.Message
 	query, args, err := psql.
-		Select("encrypted_message, sent_at").
+		Select("id, id_pair, encrypted_message, sent_at").
 		From("message").
 		Where(squirrel.Eq{"id_pair": pairID}).
 		ToSql()
@@ -41,7 +41,7 @@ func (r *MessagePostgres) GetRelatedMessages(pairID int) ([]ecdhsnap.Message, er
 	rows, err := r.db.Query(query, args...)
 	for rows.Next() {
 		var message ecdhsnap.Message
-		if err := rows.Scan(&message.Encrypted_message, &message.Sent_at); err != nil {
+		if err := rows.Scan(&message.Id, &message.Id_pair, &message.Encrypted_message, &message.Sent_at); err != nil {
 			return messages, err
 		}
 		messages = append(messages, message)
