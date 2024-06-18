@@ -73,7 +73,11 @@ func (h *Handler) login(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) logout(w http.ResponseWriter, r *http.Request) {
-	session, _ := store.Get(r, "session-id")
+	session, err_s := store.Get(r, "session-id")
+	if err_s != nil {
+		http.Error(w, "Internal Server Error: "+err_s.Error(), http.StatusInternalServerError)
+		return
+	}
 
 	session.Options.MaxAge = -1
 	if err := session.Save(r, w); err != nil {
