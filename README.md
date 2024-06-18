@@ -14,10 +14,12 @@ It's a repository for [ECDH Master](https://github.com/artemioo/ecdhsnap) backen
 ## Getting Started
 You need to run migrations. For example:
 
-`sudo migrate -path ./schema -database 'postgres://postgres:qwerty@localhost:5436/postgres?sslmode=disable' -verbose up`
-
+```shell
+sudo migrate -path ./schema -database 'postgres://postgres:qwerty@localhost:5436/postgres?sslmode=disable' -verbose up`
+```
 NOTE: paste here your variables
 
 And run at main directory:
-
- `go run cmd/main.go`
+```shell
+go run cmd/main.go
+```
